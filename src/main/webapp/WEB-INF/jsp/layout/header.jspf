@@ -1,0 +1,59 @@
+<%-- Top bar, included by tags/page.tag --%>
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="brand" href="<c:url value='/'/>">
+            <img class="brand-logo" src="<c:url value='/images/logo.svg'/>" alt="" width="36" height="36">
+            <span class="brand-text">
+                <span class="brand-name">Blood Donation</span>
+                <span class="brand-tagline">Management System</span>
+            </span>
+        </a>
+        <nav class="site-nav" aria-label="Main" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <c:choose>
+                <%-- ADMIN LOGGED IN --%>
+                <c:when test="${isAdmin}">
+                    <a class="nav-link" href="<c:url value='/admin/dashboard'/>" ${activeNav == 'admin-dashboard' ? 'aria-current="page"' : ''}>Portal</a>
+                    <a class="nav-link" href="<c:url value='/donors'/>" ${activeNav == 'donors' ? 'aria-current="page"' : ''}>Donors</a>
+                    <a class="nav-link" href="<c:url value='/search'/>" ${activeNav == 'search' ? 'aria-current="page"' : ''}>Find donors</a>
+                    <a class="nav-link" href="<c:url value='/admin/donor-requests'/>" ${activeNav == 'donor-requests' ? 'aria-current="page"' : ''}>
+                        Donor Requests
+                        <c:if test="${pendingDonorRequestsCount > 0}">
+                            <span style="display: inline-block; padding: 0.1rem 0.45rem; font-size: 0.6875rem; font-weight: 700; border-radius: 9999px; background-color: #fef3c7; color: #92400e; margin-left: 0.25rem;">${pendingDonorRequestsCount}</span>
+                        </c:if>
+                    </a>
+                    <a class="nav-link" href="<c:url value='/admin/blood-requests'/>" ${activeNav == 'blood-requests' ? 'aria-current="page"' : ''}>
+                        Blood Requests
+                        <c:if test="${pendingBloodRequestsCount > 0}">
+                            <span style="display: inline-block; padding: 0.1rem 0.45rem; font-size: 0.6875rem; font-weight: 700; border-radius: 9999px; background-color: #fee2e2; color: #991b1b; margin-left: 0.25rem;">${pendingBloodRequestsCount}</span>
+                        </c:if>
+                    </a>
+                    <a class="btn btn-primary btn-sm nav-cta" href="<c:url value='/donors/new'/>" ${activeNav == 'register' ? 'aria-current="page"' : ''}>Register donor</a>
+                    <span style="font-size: 0.8125rem; font-weight: 600; color: #1c1917; background-color: #f5f5f4; padding: 0.25rem 0.625rem; border-radius: 0.375rem; margin-left: 0.25rem;">Admin</span>
+                    <a class="btn btn-secondary btn-sm" href="<c:url value='/logout'/>">Logout</a>
+                </c:when>
+
+                <%-- USER LOGGED IN --%>
+                <c:when test="${isUser}">
+                    <a class="nav-link" href="<c:url value='/user/dashboard'/>" ${activeNav == 'dashboard' ? 'aria-current="page"' : ''}>Dashboard</a>
+                    <a class="nav-link" href="<c:url value='/user/donate'/>" ${activeNav == 'donate' ? 'aria-current="page"' : ''}>Donate Blood</a>
+                    <a class="nav-link" href="<c:url value='/user/request-blood'/>" ${activeNav == 'request-blood' ? 'aria-current="page"' : ''}>Request Blood</a>
+                    <a class="nav-link" href="<c:url value='/user/my-requests'/>" ${activeNav == 'my-requests' ? 'aria-current="page"' : ''}>My Requests</a>
+                    <a class="nav-link" href="<c:url value='/search'/>" ${activeNav == 'search' ? 'aria-current="page"' : ''}>Find donors</a>
+                    <span style="font-size: 0.8125rem; font-weight: 600; color: #b91c1c; background-color: #fee2e2; padding: 0.25rem 0.625rem; border-radius: 0.375rem; margin-left: 0.25rem;">
+                        <c:out value="${currentUser.fullName}"/>
+                    </span>
+                    <a class="btn btn-secondary btn-sm" href="<c:url value='/logout'/>">Logout</a>
+                </c:when>
+
+                <%-- GUEST (NOT LOGGED IN) --%>
+                <c:otherwise>
+                    <a class="nav-link" href="<c:url value='/donors'/>" ${activeNav == 'donors' ? 'aria-current="page"' : ''}>Donors</a>
+                    <a class="nav-link" href="<c:url value='/search'/>" ${activeNav == 'search' ? 'aria-current="page"' : ''}>Find donors</a>
+                    <a class="nav-link" href="<c:url value='/login'/>" ${activeNav == 'login' ? 'aria-current="page"' : ''}>User Login</a>
+                    <a class="nav-link" href="<c:url value='/admin/login'/>" ${activeNav == 'admin-login' ? 'aria-current="page"' : ''}>Admin Login</a>
+                    <a class="btn btn-primary btn-sm nav-cta" href="<c:url value='/register'/>" ${activeNav == 'register' ? 'aria-current="page"' : ''}>Sign Up</a>
+                </c:otherwise>
+            </c:choose>
+        </nav>
+    </div>
+</header>
